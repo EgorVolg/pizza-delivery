@@ -5,9 +5,6 @@ import { RangeSlider } from "./range-slider";
 import { Input } from "../ui";
 import { CheckboxFiltersGroup } from "./chekbox-filters-group";
 
-
-
-
 type Props = {
     className?: string;
 }
