@@ -52,7 +52,7 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
                 href={`/product/${product.id}`}
                 key={product.id}
                 className='flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/10 cursor-pointer'>
-                <Image
+                <img
                   src={product.imageUrl}
                   alt={product.name}
                   className='rounded-sm h-8 w-8' />

@@ -1,4 +1,5 @@
 export enum ApiRoutes {
-  SEARCH_PRODUCTS = 'products/search',
-  INGREDIENTS = 'ingredients',
-}
+  products = 'products/search',
+  categories = '/categories',
+  ingredients = '/ingredients'
+};
