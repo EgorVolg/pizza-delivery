@@ -8,12 +8,13 @@ type Item = FilterCheckboxProps
 type Props = {
     title: string,
     items: Item[],
-    defaultItem: Item[],
+    name: string,
+    defaultItem?: Item[],
     limit?: number,
     searchInpputPlaceholder?: string,
     loading?: boolean,
     onClickCheckbox?: (id: string) => void,
-    selectedIds?: Set<string>,
+    selectedPizzaParams?: Set<string>,
     className?: string
 }
 
@@ -22,9 +23,10 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
     items,
     defaultItem,
     limit = 5,
+    name,
     loading,
     searchInpputPlaceholder = "Поиск",
-    selectedIds,
+    selectedPizzaParams,
     onClickCheckbox,
     className
 }) => {
@@ -33,7 +35,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
 
     const list = showAll
         ? items.filter((item) => item.text.toLowerCase().includes(searchValue.toLowerCase()))
-        : defaultItem?.slice(0, limit)
+        : (defaultItem || items).slice(0, limit)
     const onChangeSearchInput = (value: string) => {
         setSearchValue(value)
     }
@@ -73,7 +75,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
                     name={item.name}
                     text={item.text}
                     value={item.value}
-                    checked={selectedIds?.has(item.value)}
+                    checked={selectedPizzaParams?.has(item.value)}
                     endAdornment={item.endAdornment}
                 />
             ))}

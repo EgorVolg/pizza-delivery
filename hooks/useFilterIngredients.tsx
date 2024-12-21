@@ -6,14 +6,15 @@ import { useSet } from 'react-use';
 interface Props {
   ingredients: Ingredient[];
   loading: boolean;
-  selectedIds: Set<string>;
+  selectedPizzaParams: Set<string>;
   onAddId: (id: string) => void;
 }
 
 export const useIngredients = (): Props => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedIds, { toggle }] = useSet<string>(new Set([]));
+  const [selectedPizzaParams, { toggle }] = useSet<string>(new Set([]));
+
 
   React.useEffect(() => {
     async function fetchIngredients() {
@@ -35,6 +36,6 @@ export const useIngredients = (): Props => {
     ingredients,
     loading,
     onAddId: toggle,
-    selectedIds
+    selectedPizzaParams
   };
 };
