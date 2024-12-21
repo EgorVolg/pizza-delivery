@@ -10,12 +10,10 @@ interface Props {
   onAddId: (id: string) => void;
 }
 
-export const useIngredients = (): Props => {
+export const useIngredients = (values: string[] = []): Props => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedPizzaParams, { toggle }] = useSet<string>(new Set([]));
-
-
+  const [selectedPizzaParams, { toggle }] = useSet<string>(new Set(values));
   React.useEffect(() => {
     async function fetchIngredients() {
       try {
@@ -36,6 +34,6 @@ export const useIngredients = (): Props => {
     ingredients,
     loading,
     onAddId: toggle,
-    selectedPizzaParams
+    selectedPizzaParams,
   };
 };
