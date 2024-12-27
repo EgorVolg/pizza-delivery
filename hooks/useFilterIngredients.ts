@@ -1,16 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Ingredient } from "@prisma/client";
-import { useSet } from "react-use";
+import React, { useState } from 'react';
+import { Api } from '@/servises/api-client';
+import { Ingredient } from '@prisma/client';
+import { useSet } from 'react-use';
 
 interface Props {
+  ingredients: Ingredient[];
+  loading: boolean;
   selectedPizzaParams: Set<string>;
   onAddId: (id: string) => void;
 }
 
 export const useIngredients = (values: string[] = []): Props => {
- 
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPizzaParams, { toggle }] = useSet<string>(new Set(values));
+  React.useEffect(() => {
+    async function fetchIngredients() {
+      try {
+        setLoading(true);
+        const ingredients = await Api.ingredients.getAll();
+        setIngredients(ingredients);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchIngredients();
+  }, []);
 
   return {
+    ingredients,
+    loading,
     onAddId: toggle,
     selectedPizzaParams,
   };
