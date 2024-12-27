@@ -1,107 +1,59 @@
 "use client";
-import React, { useEffect } from "react";
+
+import React from "react";
 import { Title } from "./title";
-import { FilterCheckbox } from "./filter-checkbox";
-import { RangeSlider } from "./range-slider";
 import { Input } from "../ui";
+import { RangeSlider } from "./range-slider";
 import { CheckboxFiltersGroup } from "./chekbox-filters-group";
-import { useIngredients } from "@/hooks/useFilterIngredients";
-import { useSet } from "react-use";
-import qs from "qs";
-import { useRouter, useSearchParams } from "next/navigation";
-import { search } from "@/servises/products";
+import { useIngredients } from "@/hooks/useIngredients";
+import { useFilters } from "@/hooks/useFilters";
+import { useQueryFilters } from "@/hooks/useFiltersQuery";
 
-type Props = {
+interface Props {
   className?: string;
-};
-
-type PriceRange = {
-  min?: number;
-  max?: number;
-};
-
-interface FilterProps extends PriceRange {
-  types?: string;
-  sizes?: string;
-  ingredients?: string;
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams() as unknown as Map<
-    keyof FilterProps,
-    string
-  >;
-  const [price, setPrice] = React.useState<PriceRange>({
-    min: searchParams.get("min") ? Number(searchParams.get("min")) : 0,
-    max: searchParams.get("max") ? Number(searchParams.get("max")) : 1000,
-  });
+  const { ingredients, loading } = useIngredients();
+  const filters = useFilters();
 
-  const { ingredients, loading, selectedPizzaParams, onAddId } = useIngredients(
-    searchParams.get("ingredients")?.split(",")
-  );
+  useQueryFilters(filters);
 
-  const items = ingredients.map((item: { id: number; name: string }) => ({
+  const items = ingredients.map((item) => ({
     value: String(item.id),
     text: item.name,
   }));
-  const [sizes, { toggle: onAddSizes }] = useSet<string>(
-    searchParams.get("sizes")
-      ? new Set(searchParams.get("sizes")?.split(","))
-      : new Set([])
-  );
-  const [types, { toggle: onAddTypes }] = useSet(
-    new Set<string>(
-      searchParams.has("types") ? searchParams.get("types")?.split(",") : []
-    )
-  );
 
-  useEffect(() => {
-    const selectedQueryPizzaParams = {
-      ...price,
-      sizes: Array.from(sizes),
-      types: Array.from(types),
-      ingredients: Array.from(selectedPizzaParams),
-    };
-    const query = qs.stringify(selectedQueryPizzaParams, {
-      arrayFormat: "comma",
-    });
-
-    router.push(`?${query}`, { scroll: false });
-  }, [price, sizes, types, selectedPizzaParams, router]);
-
-  const onChangePriceRange = (name: keyof PriceRange, values: number) => {
-    setPrice({
-      ...price,
-      [name]: values,
-    });
+  const updatePrices = (prices: number[]) => {
+    filters.setPrices("min", prices[0]);
+    filters.setPrices("max", prices[1]);
   };
 
   return (
     <div className={className}>
       <Title text="Фильтрация" size="sm" className="mb-5 font-bold" />
       <CheckboxFiltersGroup
-        title="Тип Теста"
+        title="Тип теста"
         name="types"
         className="mb-5"
+        onClickCheckbox={filters.setTypes}
+        selected={filters.types}
         items={[
-          { value: "1", text: "Тонкое" },
-          { value: "2", text: "Традиционное" },
+          { text: "Тонкое", value: "1" },
+          { text: "Традиционное", value: "2" },
         ]}
-        onClickCheckbox={onAddTypes}
-        selectedPizzaParams={types}
       />
       <CheckboxFiltersGroup
         title="Размеры"
         name="sizes"
         className="mb-5"
+        onClickCheckbox={filters.setSizes}
+        selected={filters.sizes}
         items={[
-          { value: "20", text: "20 см" },
-          { value: "30", text: "30 см" },
-          { value: "40", text: "40 см" },
+          { text: "20 см", value: "20" },
+          { text: "30 см", value: "30" },
+          { text: "40 см", value: "40" },
         ]}
-        onClickCheckbox={onAddSizes}
-        selectedPizzaParams={sizes}
       />
       <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
         <p className="font-bold mb-3">Цена от и до:</p>
@@ -109,38 +61,39 @@ export const Filters: React.FC<Props> = ({ className }) => {
           <Input
             type="number"
             placeholder="0"
-            max={1000}
             min={0}
-            value={price.min}
-            onChange={(e) => onChangePriceRange("min", Number(e.target.value))}
+            max={1000}
+            value={String(filters.prices.min)}
+            onChange={(e) => filters.setPrices("min", Number(e.target.value))}
           />
           <Input
             type="number"
-            placeholder="1000"
+            min={100}
             max={1000}
-            min={0}
-            value={price.max}
-            onChange={(e) => onChangePriceRange("max", Number(e.target.value))}
+            placeholder="1000"
+            value={String(filters.prices.max)}
+            onChange={(e) => filters.setPrices("max", Number(e.target.value))}
           />
         </div>
+
         <RangeSlider
           min={0}
           max={1000}
           step={10}
-          value={[price.min || 0, price.max || 1000]}
-          onValueChange={([min, max]) => setPrice({ min, max })}
+          value={[filters.prices.min || 0, filters.prices.max || 1000]}
+          onValueChange={updatePrices}
         />
       </div>
       <CheckboxFiltersGroup
         title="Ингредиенты"
         name="ingredients"
         className="mt-5"
-        limit={5}
-        defaultItem={items.slice(0, 6)}
+        limit={6}
+        defaultItems={items.slice(0, 6)}
         items={items}
         loading={loading}
-        onClickCheckbox={onAddId}
-        selectedPizzaParams={selectedPizzaParams}
+        onClickCheckbox={filters.setSelectedIngredients}
+        selected={filters.selectedIngredients}
       />
     </div>
   );
