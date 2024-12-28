@@ -1,13 +1,15 @@
-export {Container} from  "./container"
-export {Header} from './header'
-export {Title} from  "./title"
-export {Categories} from "./categories"
-export {Popup} from "./sort-popup"
-export {TopBar} from "./top-bar"
-export {Filters} from "./filters"
-export {FilterCheckbox} from "./filter-checkbox"
-export {RangeSlider} from "./range-slider"
-export {ProductCard} from "./product-card"
-export {ProductsGroupList} from "./products-group-list"
-export {CheckboxFiltersGroup} from "./chekbox-filters-group"
-export {SearchInput} from "./search-input"
+export { Container } from "./container";
+export { Header } from "./header";
+export { Title } from "./title";
+export { Categories } from "./categories";
+export { Popup } from "./sort-popup";
+export { TopBar } from "./top-bar";
+export { Filters } from "./filters";
+export { FilterCheckbox } from "./filter-checkbox";
+export { RangeSlider } from "./range-slider";
+export { ProductCard } from "./product-card";
+export { ProductsGroupList } from "./products-group-list";
+export { CheckboxFiltersGroup } from "./chekbox-filters-group";
+export { SearchInput } from "./search-input";
+export { ProductImage } from "./product-image";
+export { GroupVariants } from "./group-variants";
