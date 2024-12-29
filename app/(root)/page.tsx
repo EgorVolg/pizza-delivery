@@ -1,14 +1,12 @@
-import {
-  CheckboxFiltersGroup,
+import { 
   Container,
   Filters,
   ProductsGroupList,
   Title,
   TopBar,
 } from "@/components/shared";
-import { categories } from "@/prisma/constants";
+
 import { prisma } from "@/prisma/prisma-client";
-import { Check } from "lucide-react";
 
 export default async function Home() {
   const categories = await prisma.category.findMany({

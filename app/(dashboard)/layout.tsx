@@ -4,9 +4,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <main>
       DASHBOARD HEADER
-      <body className="bg-background">{children}</body>
-    </html>
+      <body>{children}</body>
+    </main>
   );
 }
