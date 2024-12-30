@@ -1,13 +1,14 @@
 "use client";
-
 import { ProductWithRelations } from "@/@types/prisma";
 import { ChooseProductForm, ChoosePizzaForm } from "@/shared/components/shared";
-
-import { Dialog, DialogContent, DialogTitle } from "@/shared/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/shared/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
-
 
 type Props = {
   className?: string;
@@ -36,8 +37,7 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
         ) : (
           <ChooseProductForm
             imageUrl={product.imageUrl}
-            name={product.name}
-            items={product.items}
+            name={product.name} 
           />
         )}
       </DialogContent>

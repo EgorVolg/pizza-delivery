@@ -14,6 +14,9 @@ export const categories = [
   {
     name: "Напитки",
   },
+  {
+    name: "Соусы",
+  },
 ];
 
 export const ingredients = [
@@ -206,5 +209,36 @@ export const products = [
     name: 'Кофе Латте',
     imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D61B0C26A3F85D97A78FEEE00AD.webp',
     categoryId: 5,
+  },
+
+  {
+    name: 'Медово-горчичный',
+    imageUrl: 'https://media.dodostatic.net/image/r:292x292/01938e592fdd72bb84725943277cb90b.avif',
+    categoryId: 6,
+  },
+  {
+    name: 'Сырный',
+    imageUrl: 'https://media.dodostatic.net/image/r:292x292/01938e5b956e7009a34d11b5732edbf7.avif',
+    categoryId: 6,
+  },
+  {
+    name: 'Чесночный',
+    imageUrl: 'https://media.dodostatic.net/image/r:292x292/019391901209742197dc821157a95d7e.avif',
+    categoryId: 6,
+  },
+  {
+    name: 'Барбекю',
+    imageUrl: 'https://media.dodostatic.net/image/r:292x292/01938e578392740b8ac0ec95ac6e426f.avif',
+    categoryId: 6,
+  },
+  {
+    name: 'Малиновое варенье',
+    imageUrl: 'https://media.dodostatic.net/image/r:292x292/01938e5867a2734a825e0cd14cf339a9.avif',
+    categoryId: 6,
+  },
+  {
+    name: 'Сгущёнка в стиках, 7 г',
+    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11ee797037779f45843f87c907fea8c8.avif',
+    categoryId: 6,
   },
 ];
