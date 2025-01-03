@@ -1,8 +1,5 @@
 "use client";
-
 import React from "react";
-import Image from "next/image";
-
 import {
   Sheet,
   SheetClose,
@@ -16,6 +13,8 @@ import Link from "next/link";
 import { Button } from "../ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Title } from "./title";
+import { CartDrawerItem } from "./cart-drawer-item";
+import { getCartItemDetails } from "./get-cart-item.details";
 
 export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
@@ -28,6 +27,69 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
             В корзине <span className="font-bold">3 товара</span>
           </SheetTitle>
         </SheetHeader>
+
+        <div className="mx-6 mt-5 overflow-y-auto scrollbar flex-1">
+          <CartDrawerItem
+            id={1}
+            name="Пицца с мясом"
+            price={400}
+            imageUrl="/images/pizza.png"
+            quantity={1}
+            price={400}
+            details={getCartItemDetails(20, 1, [
+              { name: "Сыр" },
+              { name: "Помидор" },
+              { name: "Колбаса" },
+              { name: "Острый перец" },
+              { name: "Чеснок" },
+            ])}
+          />
+          <CartDrawerItem
+            id={1}
+            name="Пицца с мясом"
+            price={400}
+            imageUrl="/images/pizza.png"
+            quantity={1}
+            price={400}
+            details={getCartItemDetails(20, 1, [
+              { name: "Сыр" },
+              { name: "Помидор" },
+              { name: "Колбаса" },
+              { name: "Острый перец" },
+              { name: "Чеснок" },
+            ])}
+          />
+          <CartDrawerItem
+            id={1}
+            name="Пицца с мясом"
+            price={400}
+            imageUrl="/images/pizza.png"
+            quantity={1}
+            price={400}
+            details={getCartItemDetails(20, 1, [
+              { name: "Сыр" },
+              { name: "Помидор" },
+              { name: "Колбаса" },
+              { name: "Острый перец" },
+              { name: "Чеснок" },
+            ])}
+          />
+          <CartDrawerItem
+            id={1}
+            name="Пицца с мясом"
+            price={400}
+            imageUrl="/images/pizza.png"
+            quantity={1}
+            price={400}
+            details={getCartItemDetails(20, 1, [
+              { name: "Сыр" },
+              { name: "Помидор" },
+              { name: "Колбаса" },
+              { name: "Острый перец" },
+              { name: "Чеснок" },
+            ])}
+          />
+        </div>
 
         <div className="flex flex-col items-center justify-center w-72 mx-auto">
           <Title
