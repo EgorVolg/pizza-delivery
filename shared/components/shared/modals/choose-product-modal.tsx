@@ -9,6 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useCartStore } from "@/store";
 
 type Props = {
   className?: string;
@@ -17,7 +18,23 @@ type Props = {
 
 export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
   const router = useRouter();
-  const isPizzaForm = Boolean(product.items[0].pizzaType);
+  const firstItem = product.items[0];
+  const isPizzaForm = Boolean(firstItem.pizzaType);
+  const addCartItem = useCartStore((state) => state.addCartItem);
+
+  const onSubmit = ({ productItemId, ingredients }: any) => {
+    if (isPizzaForm) {
+      addCartItem({
+        productItemId,
+        ingredients,
+      });
+    } else {
+      addCartItem({
+        productItemId: firstItem.id,
+      });
+    }
+  };
+
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
       <DialogTitle className="display-none">Выбор продукта</DialogTitle>
@@ -33,11 +50,14 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
             name={product.name}
             ingredients={product.ingredients}
             items={product.items}
+            onSubmit={onSubmit}
           />
         ) : (
           <ChooseProductForm
             imageUrl={product.imageUrl}
-            name={product.name} 
+            name={product.name}
+            price={firstItem.price}
+            onSubmit={onSubmit}
           />
         )}
       </DialogContent>

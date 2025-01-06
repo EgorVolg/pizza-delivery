@@ -1,7 +1,7 @@
 "use client";
 import { usePizzaOptions } from "@/shared/hooks";
 import { Ingredient, ProductItem } from "@prisma/client";
-import { getPizzaDetails } from "./get-pizza-details";
+import { getPizzaDetails } from "@/shared/my-lib/get-pizza-details";
 import { PizzaImage } from "./pizza-image";
 import { cn } from "@/lib/utils";
 import { Title } from "@radix-ui/react-dialog";
@@ -94,7 +94,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 
         <Button
           loading={loading}
-          onClick={handleClickAdd}
+          onSubmit={handleClickAdd}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
           Добавить в корзину за {totalPrice} ₽
         </Button>

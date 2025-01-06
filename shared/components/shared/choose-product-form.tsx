@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Ingredient } from "@prisma/client";
 import React from "react";
 import { Title } from "./title";
 import { Button } from "../ui";
@@ -7,18 +6,16 @@ import { Button } from "../ui";
 interface Props {
   imageUrl: string;
   name: string;
-
-  // ingredients: Ingredient[];
-  // loading?: boolean;
-  // onSubmit: (itemId: number, ingredients: number[]) => void;
+  price: number;
+  onSubmit: (itemId: number) => void;
   className?: string;
 }
 
 export const ChooseProductForm: React.FC<Props> = ({
   name,
   imageUrl,
-  // loading,
-
+  onSubmit,
+  price,
   className,
 }) => {
   return (
@@ -36,9 +33,10 @@ export const ChooseProductForm: React.FC<Props> = ({
 
         <Button
           // loading={loading}
+          onClick={() => onSubmit(1)}
           className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
         >
-          Добавить в корзину за {"400"} ₽
+          Добавить в корзину за {price} ₽
         </Button>
       </div>
     </div>

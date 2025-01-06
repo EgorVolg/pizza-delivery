@@ -1,6 +1,6 @@
 
 import { Ingredient, ProductItem } from '@prisma/client';
-import { priceCounter } from './pricecounter';
+import { priceCounter } from './price-counter';
 import { mapPizzaType, PizzaSize, PizzaType } from '@/app/constans/pizza';
 
 

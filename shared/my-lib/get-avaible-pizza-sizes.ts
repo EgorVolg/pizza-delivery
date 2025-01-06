@@ -1,6 +1,7 @@
 import { pizzaSizes, PizzaType } from "@/app/constans/pizza";
 import { ProductItem } from "@prisma/client";
-import { Variant } from "./group-variants";
+import { Variant } from "../components/shared/group-variants";
+
 
 interface Item {
   items: ProductItem[];
