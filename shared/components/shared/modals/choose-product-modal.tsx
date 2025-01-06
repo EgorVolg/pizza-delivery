@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useCartStore } from "@/store";
+import toast from "react-hot-toast";
 
 type Props = {
   className?: string;
@@ -20,18 +21,30 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
   const router = useRouter();
   const firstItem = product.items[0];
   const isPizzaForm = Boolean(firstItem.pizzaType);
-  const addCartItem = useCartStore((state) => state.addCartItem);
+  const [addCartItem, loading] = useCartStore((state) => [
+    state.addCartItem,
+    state.loading,
+  ]);
 
-  const onSubmit = ({ productItemId, ingredients }: any) => {
-    if (isPizzaForm) {
-      addCartItem({
-        productItemId,
+  const onSubmit = async (productItemId?: number, ingredients?: number[]) => {
+    try {
+      const itemId = productItemId ?? firstItem.id;
+      await addCartItem({
+        productItemId: itemId,
         ingredients,
       });
-    } else {
-      addCartItem({
+
+      toast.success("Товар добавлен в корзину");
+      router.back();
+
+      await addCartItem({
         productItemId: firstItem.id,
       });
+      toast.success(product.name + "в корзине!");
+      router.back();
+    } catch (error) {
+      toast.error("Произошла ошибка");
+      console.error(error);
     }
   };
 
@@ -51,6 +64,7 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
             ingredients={product.ingredients}
             items={product.items}
             onSubmit={onSubmit}
+            loading={loading}
           />
         ) : (
           <ChooseProductForm
@@ -58,6 +72,7 @@ export const ChooseProductModal: React.FC<Props> = ({ className, product }) => {
             name={product.name}
             price={firstItem.price}
             onSubmit={onSubmit}
+            loading={loading}
           />
         )}
       </DialogContent>
