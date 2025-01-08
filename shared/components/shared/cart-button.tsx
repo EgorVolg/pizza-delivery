@@ -11,11 +11,13 @@ type Props = {
 };
 
 export const CartButton: React.FC<Props> = ({ className }) => {
-  const [totalAmount, items, loading] = useCartStore((state) => [
-    state.totalAmount,
-    state.items,
-    state.loading,
-  ]);
+  // const [totalAmount, items, loading] = useCartStore((state) => [
+  //   state.totalAmount,
+  //   state.items,
+  //   state.loading,
+  // ]);
+
+  const { totalAmount, items, loading } = useCartStore();
 
   return (
     <CartDrawer>

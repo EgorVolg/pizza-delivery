@@ -1,3 +1,3 @@
-import { CartButton } from "../cart-button";
+import { CountButton } from '../count-button';
 
-export const CartItemDetailsCountButton = CartButton;
+export const CartItemDetailsCountButton = CountButton;

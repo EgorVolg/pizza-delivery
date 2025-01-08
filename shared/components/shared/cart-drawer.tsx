@@ -17,19 +17,27 @@ import { PizzaSize, PizzaType } from "@/app/constans/pizza";
 import { getCartItemDetails } from "@/shared/my-lib";
 
 export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [
+  // const [
+  //   fetchCartItems,
+  //   totalAmount,
+  //   updateItemQuantity,
+  //   removeCartItem,
+  //   items,
+  // ] = useCartStore((state) => [
+  //   state.fetchCartItems,
+  //   state.totalAmount,
+  //   state.updateItemQuantity,
+  //   state.removeCartItem,
+  //   state.items,
+  // ]);
+
+  const {
     fetchCartItems,
     totalAmount,
     updateItemQuantity,
     removeCartItem,
     items,
-  ] = useCartStore((state) => [
-    state.fetchCartItems,
-    state.totalAmount,
-    state.updateItemQuantity,
-    state.removeCartItem,
-    state.items,
-  ]);
+  } = useCartStore();
 
   useEffect(() => {
     fetchCartItems();
