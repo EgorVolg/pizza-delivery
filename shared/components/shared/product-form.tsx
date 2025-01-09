@@ -38,7 +38,6 @@ export const ProductForm: React.FC<Props> = ({
       console.error(err);
     }
   };
-
   if (isPizzaForm) {
     return (
       <ChoosePizzaForm

@@ -15,7 +15,5 @@ export const removeCartItem = async (id: number): Promise<CartDTO> => {
 };
 
 export const addCartItem = async (values: CreateCartItemValues): Promise<CartDTO> => {
-  console.log(values);
-
   return (await instance.post<CartDTO>('/cart', values)).data;
 };
