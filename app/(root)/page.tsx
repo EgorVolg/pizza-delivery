@@ -11,10 +11,10 @@ import { Suspense } from "react";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: GetSearchParams;
+  searchParams: any;
 }) {
   const categories = await findPizzas({
-    ...searchParams,
+    searchParams,
   });
   return (
     <>

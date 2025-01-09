@@ -1,5 +1,4 @@
 import { prisma } from '@/prisma/prisma-client';
-import { categories } from './../../prisma/constants';
 export interface GetSearchParams {
   query?: string;
   sortBy?: string;
@@ -10,11 +9,10 @@ export interface GetSearchParams {
   priceTo?: string;
 }
 
-
 const DEFAULT_MIN_PRICE = 0;
 const DEFAULT_MAX_PRICE = 1000;
-
-export const findPizzas = async (params: GetSearchParams) => {
+//! any type!
+export const findPizzas = async (params: any) => {
   const sizes = params.sizes?.split(',').map(Number)
   const pizzaTypes = params.pizzaTypes?.split(',').map(Number)
   const ingredientsIdArr = params.ingredients?.split(',').map(Number)

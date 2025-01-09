@@ -7,5 +7,4 @@ export interface CartItemProps {
   price: number;
   quantity: number;
   disabled?: boolean;
-
 }
