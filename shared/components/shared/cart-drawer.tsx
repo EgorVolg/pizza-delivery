@@ -16,11 +16,16 @@ import { CartDrawerItem } from "./cart-drawer-item";
 import { useCartStore } from "@/store";
 import { PizzaSize, PizzaType } from "@/app/constans/pizza";
 import { getCartItemDetails } from "@/shared/my-lib";
-import { Title } from "./title"; 
+import { Title } from "./title";
 
 export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { totalAmount, updateItemQuantity, items, removeCartItem, fetchCartItems } =
-    useCartStore();
+  const {
+    totalAmount,
+    updateItemQuantity,
+    items,
+    removeCartItem,
+    fetchCartItems,
+  } = useCartStore();
 
   useEffect(() => {
     fetchCartItems();
@@ -34,6 +39,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
 
     updateItemQuantity(id, newQuantity);
+    fetchCartItems();
   };
 
   return (
@@ -63,14 +69,14 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
             <>
               <SheetHeader>
                 <SheetTitle>
-                  В корзине{" "}
-                  <span className="font-bold">{items.length} товара</span>
+                  В корзине
+                  <span className="font-bold">&nbsp;{items.length}&nbsp;товара</span>
                 </SheetTitle>
               </SheetHeader>
 
               <div className=" -mx-6 mt-5 overflow-y-auto scrollbar flex-1">
-                {items.map((item) => (
-                  <div className="mb-2">
+                {items.map((item, index) => (
+                  <div className="mb-2" key={index}>
                     <CartDrawerItem
                       id={item.id}
                       quantity={item.quantity}

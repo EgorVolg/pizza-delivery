@@ -1,26 +1,20 @@
-import React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import React from 'react';
+import { Container } from './container';
+import { Categories } from './categories';
+import { Popup } from './sort-popup';
+import { Category } from '@prisma/client';
 
-import { Categories } from "./categories";
-import { Container } from "./container";
-import { Popup } from "./sort-popup";
-import { Category } from "@prisma/client";
-
-type Props = {
-  className?: string;
+interface Props {
   categories: Category[];
-};
+  className?: string;
+}
 
-export const TopBar: React.FC<Props> = ({ className, categories }) => {
+export const TopBar: React.FC<Props> = ({ categories, className }) => {
   return (
-    <div
-      className={cn(
-        "sticky top-0 bg-white py-5 shadow-lg shadow-black/5 z-10",
-        className
-      )}
-    >
+    <div className={cn('sticky top-0 bg-white py-5 shadow-lg shadow-black/5 z-10', className)}>
       <Container className="flex items-center justify-between ">
-        <Categories categories={categories} />
+        <Categories items={categories} />
         <Popup />
       </Container>
     </div>
