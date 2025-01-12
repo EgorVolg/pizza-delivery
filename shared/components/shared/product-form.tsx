@@ -16,7 +16,12 @@ export const ProductForm: React.FC<Props> = ({
   product,
   onSubmit: _onSubmit,
 }) => {
-  const { addCartItem, loading } = useCartStore();
+  const {addCartItem, loading} = useCartStore(
+  //   (state) => [
+  //   state.addCartItem,
+  //   state.loading,
+  // ]
+);
 
   const firstItem = product.items[0];
   const isPizzaForm = Boolean(firstItem.pizzaType);

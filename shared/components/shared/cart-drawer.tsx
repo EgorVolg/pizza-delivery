@@ -16,17 +16,11 @@ import { CartDrawerItem } from "./cart-drawer-item";
 import { useCartStore } from "@/store";
 import { PizzaSize, PizzaType } from "@/app/constans/pizza";
 import { getCartItemDetails } from "@/shared/my-lib";
-import { Title } from "./title";
-import Image from "next/image";
+import { Title } from "./title"; 
 
 export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const {
-    fetchCartItems,
-    totalAmount,
-    updateItemQuantity,
-    removeCartItem,
-    items,
-  } = useCartStore();
+  const { totalAmount, updateItemQuantity, items, removeCartItem, fetchCartItems } =
+    useCartStore();
 
   useEffect(() => {
     fetchCartItems();
