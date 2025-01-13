@@ -17,6 +17,8 @@ import { useCartStore } from "@/store";
 import { PizzaSize, PizzaType } from "@/app/constans/pizza";
 import { getCartItemDetails } from "@/shared/my-lib";
 import { Title } from "./title";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   const {
@@ -45,10 +47,31 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
+
       <SheetContent className="flex flex-col justify-between pb-0 bg-[#F4F1EE]">
-        <div className="flex flex-col items-center justify-center w-72 mx-auto">
-          {!totalAmount || totalAmount === 0 ? (
-            <>
+        <div
+          className={cn(
+            "flex flex-col h-full",
+            !totalAmount && "justify-center"
+          )}
+        >
+          {totalAmount > 0 && (
+            <SheetHeader>
+              <SheetTitle>
+                В корзине
+                <span className="font-bold">&nbsp;{items.length}&nbsp;товаров</span>
+              </SheetTitle>
+            </SheetHeader>
+          )}
+
+          {!totalAmount && (
+            <div className="flex flex-col items-center justify-center w-72 mx-auto">
+              <Image
+                src="/empty-box.png"
+                alt="Empty cart"
+                width={120}
+                height={120}
+              />
               <Title
                 size="sm"
                 text="Корзина пустая"
@@ -64,30 +87,17 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                   Вернуться назад
                 </Button>
               </SheetClose>
-            </>
-          ) : (
-            <>
-              <SheetHeader>
-                <SheetTitle>
-                  В корзине
-                  <span className="font-bold">&nbsp;{items.length}&nbsp;товара</span>
-                </SheetTitle>
-              </SheetHeader>
+            </div>
+          )}
 
-              <div className=" -mx-6 mt-5 overflow-y-auto scrollbar flex-1">
-                {items.map((item, index) => (
-                  <div className="mb-2" key={index}>
+          {totalAmount > 0 && (
+            <>
+              <div className="-mx-6 mt-5 overflow-auto flex-1">
+                {items.map((item) => (
+                  <div key={item.id} className="mb-2">
                     <CartDrawerItem
                       id={item.id}
-                      quantity={item.quantity}
-                      name={item.name}
-                      disabled={item.disabled}
-                      price={item.price}
                       imageUrl={item.imageUrl}
-                      onClickCountButton={(type) =>
-                        onClickCountButton(type, item.id, item.quantity)
-                      }
-                      onClickRemoveItem={() => removeCartItem(item.id)}
                       details={
                         item.pizzaSize && item.pizzaType
                           ? getCartItemDetails(
@@ -97,6 +107,14 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                             )
                           : ""
                       }
+                      disabled={item.disabled}
+                      name={item.name}
+                      price={item.price}
+                      quantity={item.quantity}
+                      onClickCountButton={(type) =>
+                        onClickCountButton(type, item.id, item.quantity)
+                      }
+                      onClickRemoveItem={() => removeCartItem(item.id)}
                     />
                   </div>
                 ))}
@@ -114,7 +132,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                   </div>
 
                   <Link href="/checkout">
-                    <Button className="w-full h-12 text-base">
+                    <Button type="submit" className="w-full h-12 text-base">
                       Оформить заказ
                       <ArrowRight className="w-5 ml-2" />
                     </Button>
