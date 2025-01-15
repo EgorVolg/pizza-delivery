@@ -25,6 +25,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@types/bcrypt": "^5.0.2",
     "@types/qs": "^6.9.17",
+    "add": "^2.0.6",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",
@@ -36,8 +37,10 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.1",
     "react-use": "^17.6.0",
+    "shadcn-ui": "^0.9.4",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "textarea": "^0.3.0",
     "ts-node": "^10.9.2",
     "vaul": "^1.1.1",
     "zustand": "^5.0.2"

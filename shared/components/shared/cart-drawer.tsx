@@ -12,26 +12,16 @@ import {
 import Link from "next/link";
 import { Button } from "../ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { CartDrawerItem } from "./cart-drawer-item";
-import { useCartStore } from "@/store";
+import { CartDrawerItem } from "./cart-drawer-item"; 
 import { PizzaSize, PizzaType } from "@/app/constans/pizza";
 import { getCartItemDetails } from "@/shared/my-lib";
 import { Title } from "./title";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { useCart } from "@/shared/hooks";
 
 export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const {
-    totalAmount,
-    updateItemQuantity,
-    items,
-    removeCartItem,
-    fetchCartItems,
-  } = useCartStore();
-
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
+  const { totalAmount, updateItemQuantity, items, removeCartItem } = useCart();
 
   const onClickCountButton = (
     type: "plus" | "minus",
@@ -41,7 +31,6 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
 
     updateItemQuantity(id, newQuantity);
-    fetchCartItems();
   };
 
   return (
@@ -59,7 +48,9 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
             <SheetHeader>
               <SheetTitle>
                 В корзине
-                <span className="font-bold">&nbsp;{items.length}&nbsp;товаров</span>
+                <span className="font-bold">
+                  &nbsp;{items.length}&nbsp;товаров
+                </span>
               </SheetTitle>
             </SheetHeader>
           )}
@@ -98,15 +89,11 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                     <CartDrawerItem
                       id={item.id}
                       imageUrl={item.imageUrl}
-                      details={
-                        item.pizzaSize && item.pizzaType
-                          ? getCartItemDetails(
-                              item.pizzaSize as PizzaSize,
-                              item.pizzaType as PizzaType,
-                              item.ingredients
-                            )
-                          : ""
-                      }
+                      details={getCartItemDetails(
+                        item.pizzaSize as PizzaSize,
+                        item.pizzaType as PizzaType,
+                        item.ingredients
+                      )}
                       disabled={item.disabled}
                       name={item.name}
                       price={item.price}

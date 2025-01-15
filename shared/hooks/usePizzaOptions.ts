@@ -1,3 +1,4 @@
+'use client'
 import { PizzaSize, PizzaType } from "@/app/constans/pizza"
 import { useEffect, useState } from "react"
 import { useSet } from "react-use"

@@ -20,5 +20,7 @@ export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
 export { CartDrawerItem } from "./cart-drawer-item";
 export { ProductForm } from "./product-form";
-
+export { WhiteBlock } from './white-block';
+export { CheckoutItem } from "./checkout-item";
+export { CheckoutItemSkeleton } from "./checkout-item-skeleton";
 export * from "./modals";

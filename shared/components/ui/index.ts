@@ -7,4 +7,5 @@ export { Dialog } from './dialog';
 export { Popover } from './popover';
 export { Checkbox } from './checkbox';
 export { Drawer } from './drawer';
- export {Sheet } from './sheet';
+export { Sheet } from './sheet';
+export { Textarea } from './textarea';
