@@ -23,4 +23,5 @@ export { ProductForm } from "./product-form";
 export { WhiteBlock } from './white-block';
 export { CheckoutItem } from "./checkout-item";
 export { CheckoutItemSkeleton } from "./checkout-item-skeleton";
+export { CheckoutSidebar } from "./checkout-sidebar";
 export * from "./modals";
