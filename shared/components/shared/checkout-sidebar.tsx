@@ -14,8 +14,7 @@ type Props = {
 export const CheckoutSidebar: React.FC<Props> = ({
   className,
   totalAmount,
-}) => {
-  const [redirect, setRedirect] = useState(false);
+}) => { 
 
   const VAT = 15;
   const DELIVERY_PRICE = 500;
@@ -57,9 +56,7 @@ export const CheckoutSidebar: React.FC<Props> = ({
         value={` ${DELIVERY_PRICE} ₽`}
       />
       <Button
-        type="submit"
-        disabled={redirect}
-        onClick={() => setRedirect(true)}
+        type="submit" 
         className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
       >
         Оплатить

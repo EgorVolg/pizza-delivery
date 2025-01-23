@@ -6,7 +6,7 @@ type Props = {
   className?: string;
 };
 
-export const CheckoutPersonalInfo: React.FC<Props> = ({ className }) => {
+export const CheckoutPersonalForm: React.FC<Props> = ({ className }) => {
   return (
     <WhiteBlock className={className} title="2. Персональные данные">
       <div className="grid grid-cols-2 gap-5">

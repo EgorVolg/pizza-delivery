@@ -18,7 +18,18 @@ export const FormInput: React.FC<Props> = ({
   required,
   ...props
 }) => {
-  // const {} = useFormContext();
+  const {
+    register,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useFormContext();
+
+  const value = watch(name);
+  const error = errors[name]?.message as string;
+  const onClickClear = () => {
+    setValue(name, "");
+  }; 
 
   return (
     <div className={className}>
@@ -29,11 +40,11 @@ export const FormInput: React.FC<Props> = ({
       )}
 
       <div className="relative">
-        <Input className="h-12 text-md" {...props} />
-        <ClearButton />
+        <Input className="h-12 text-md" {...register(name)} {...props} />
+        {value && <ClearButton onClick={onClickClear} />}
       </div>
 
-      <ErrorText text="Поле обязательно для заполнения" className="mt-2" />
+      {error && <ErrorText text={error} className="mt-2" />}
     </div>
   );
 };

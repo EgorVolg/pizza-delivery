@@ -1,10 +1,11 @@
 import { prisma } from '@/prisma/prisma-client';
 import { updateCartTotalAmount } from '@/shared/my-lib';
+import { log } from 'console';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const id = Number(params.id);
+    
     const data = (await req.json()) as { quantity: number };
     const token = req.cookies.get('cartToken')?.value;
 
@@ -14,7 +15,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
     const cartItem = await prisma.cartItem.findFirst({
       where: {
-        id,
+        id: Number(params.id),
       },
     });
 
@@ -24,7 +25,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
     await prisma.cartItem.update({
       where: {
-        id,
+        id: Number(params.id),
       },
       data: {
         quantity: data.quantity,
