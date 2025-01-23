@@ -10,7 +10,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { CheckoutCart } from "@/shared/components/shared/checkout/checkout-cart";
 import { CheckoutPersonalForm } from "@/shared/components/shared/checkout/checkout-personal-form";
 import { CheckoutAddressForm } from "@/shared/components/shared/checkout/checkout-address-form";
-import { checkoutFormSchema, CheckoutFormValues } from "@/shared/components/shared/checkout/checkout-form-schema";
+import { checkoutFormSchema, CheckoutFormValues } from "@/app/constans/checkout-form-schema";
 
 export default function Chekout() {
   const { totalAmount, items, fetchCartItems, removeCartItem } = useCart();
@@ -21,14 +21,14 @@ export default function Chekout() {
     quantity: number
   ) => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
-    updateItemQuantity(id, newQuantity);
     fetchCartItems();
+    updateItemQuantity(id, newQuantity);
   };
 
   const form = useForm({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
-      firstName: "",
+      name: "",
       lastName: "",
       email: "",
       phone: "",
@@ -55,8 +55,7 @@ export default function Chekout() {
                 onClickCountButton={onClickCountButton}
                 onClickRemoveItem={removeCartItem}
               />
-              <CheckoutPersonalForm />
-
+                <CheckoutPersonalForm />
               <CheckoutAddressForm />
             </div>
 

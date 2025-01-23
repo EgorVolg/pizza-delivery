@@ -28,7 +28,7 @@ export const FormInput: React.FC<Props> = ({
   const value = watch(name);
   const error = errors[name]?.message as string;
   const onClickClear = () => {
-    setValue(name, "");
+    setValue(name, "", { shouldValidate: true });
   }; 
 
   return (

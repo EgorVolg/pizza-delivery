@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const checkoutFormSchema = z.object({
-  firstName: z
+  name: z
     .string()
     .min(2, { message: "Имя должно содержать не менее 2-х символов" }),
   lastName: z
