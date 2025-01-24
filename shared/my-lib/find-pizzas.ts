@@ -1,4 +1,5 @@
-import { prisma } from '@/prisma/prisma-client';
+import { prisma } from "@/prisma/prisma-client";
+
 export interface GetSearchParams {
   query?: string;
   sortBy?: string;
@@ -13,9 +14,9 @@ const DEFAULT_MIN_PRICE = 0;
 const DEFAULT_MAX_PRICE = 1000;
 
 export const findPizzas = async (params: GetSearchParams) => {
-  const sizes = params.sizes?.split(',').map(Number)
-  const pizzaTypes = params.pizzaTypes?.split(',').map(Number)
-  const ingredientsIdArr = params.ingredients?.split(',').map(Number)
+  const sizes = params.sizes?.split(",").map(Number);
+  const pizzaTypes = params.pizzaTypes?.split(",").map(Number);
+  const ingredientsIdArr = params.ingredients?.split(",").map(Number);
 
   const minPrice = Number(params.priceFrom) || DEFAULT_MIN_PRICE;
   const maxPrice = Number(params.priceTo) || DEFAULT_MAX_PRICE;
@@ -24,17 +25,17 @@ export const findPizzas = async (params: GetSearchParams) => {
     include: {
       products: {
         orderBy: {
-          id: 'desc',
+          id: "desc",
         },
         where: {
           ingredients: ingredientsIdArr
             ? {
-              some: {
-                id: {
-                  in: ingredientsIdArr,
+                some: {
+                  id: {
+                    in: ingredientsIdArr,
+                  },
                 },
-              },
-            }
+              }
             : undefined,
           items: {
             some: {
@@ -45,8 +46,8 @@ export const findPizzas = async (params: GetSearchParams) => {
                 in: pizzaTypes,
               },
               price: {
-                gte: minPrice,
-                lte: maxPrice,
+                gte: minPrice, // >=
+                lte: maxPrice, // <=
               },
             },
           },
@@ -61,7 +62,7 @@ export const findPizzas = async (params: GetSearchParams) => {
               },
             },
             orderBy: {
-              price: 'asc',
+              price: "asc",
             },
           },
         },
@@ -69,5 +70,5 @@ export const findPizzas = async (params: GetSearchParams) => {
     },
   });
 
-  return categories
-}
+  return categories;
+};
