@@ -1,8 +1,18 @@
-import { useState } from "react";
+"use client";
+
+import React from "react";
 import { AddressSuggestions } from "react-dadata";
 import "react-dadata/dist/react-dadata.css";
 
-const [value, setValue] = useState();
+interface Props {
+  onChange?: (value?: string) => void;
+}
 
-<AddressSuggestions token="API_KEY" value={value} onChange={setValue} />;
- 
+export const AddressInput: React.FC<Props> = ({ onChange }) => {
+  return (
+    <AddressSuggestions
+      token="b5b8bb983ddcd08648080e0271d9dd367bb7aa65"
+      onChange={(data) => onChange?.(data?.value)}
+    />
+  );
+};
