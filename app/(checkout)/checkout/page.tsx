@@ -1,5 +1,5 @@
 "use client";
-import { Container, Title } from "@/shared/components/shared"; 
+import { Container, Title } from "@/shared/components/shared";
 import { useCart } from "@/shared/hooks";
 import { updateItemQuantity } from "@/servises/cart";
 import { CheckoutSidebar } from "@/shared/components/shared";
@@ -12,11 +12,15 @@ import {
   checkoutFormSchema,
   CheckoutFormValues,
 } from "@/app/constans/checkout-form-schema";
-import { createOrder } from "@/app/actions"; 
+import { createOrder } from "@/app/actions";
+import toast from "react-hot-toast";
+import { prisma } from "@/prisma/prisma-client";
+import { useState } from "react";
 
 export default function Chekout() {
   const { totalAmount, items, fetchCartItems, removeCartItem, loading } =
     useCart();
+  const [submitting, setSubmitting] = useState(false);
 
   const onClickCountButton = (
     type: "plus" | "minus",
@@ -40,9 +44,25 @@ export default function Chekout() {
     },
   });
 
-  const onSubmit = (data: CheckoutFormValues) => {
-    createOrder(data);
-  
+  const onSubmit = async (data: CheckoutFormValues) => {
+    const url = await createOrder(data);
+
+    try {
+      setSubmitting(true);
+      toast.error("Заказ успешно оформлен! 📝 Переход на оплату... ", {
+        icon: "✅",
+      });
+
+      if (url) {
+        location.href = url;
+      }
+    } catch (err) {
+      console.log(err);
+      setSubmitting(false);
+      toast.error("Не удалось создать заказ", {
+        icon: "❌",
+      });
+    }
   };
 
   return (
@@ -70,7 +90,10 @@ export default function Chekout() {
             </div>
 
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
+              <CheckoutSidebar
+                totalAmount={totalAmount}
+                loading={loading || submitting}
+              />
             </div>
           </div>
         </form>
