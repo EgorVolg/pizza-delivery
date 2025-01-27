@@ -5,8 +5,6 @@ import { ErrorText } from "./error-text";
 import { ClearButton } from "./clear-button";
 import { Input } from "../../ui";
 
- 
-
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;

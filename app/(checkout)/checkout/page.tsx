@@ -1,10 +1,8 @@
 "use client";
-import { Container, Title, WhiteBlock } from "@/shared/components/shared";
-import { Input, Textarea } from "@/shared/components/ui";
+import { Container, Title } from "@/shared/components/shared"; 
 import { useCart } from "@/shared/hooks";
 import { updateItemQuantity } from "@/servises/cart";
 import { CheckoutSidebar } from "@/shared/components/shared";
-import { FormInput } from "@/shared/components/shared/form/form-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { CheckoutCart } from "@/shared/components/shared/checkout/checkout-cart";
@@ -14,6 +12,7 @@ import {
   checkoutFormSchema,
   CheckoutFormValues,
 } from "@/app/constans/checkout-form-schema";
+import { createOrder } from "@/app/actions"; 
 
 export default function Chekout() {
   const { totalAmount, items, fetchCartItems, removeCartItem, loading } =
@@ -40,8 +39,10 @@ export default function Chekout() {
       comment: "",
     },
   });
+
   const onSubmit = (data: CheckoutFormValues) => {
-    console.log(data);
+    createOrder(data);
+  
   };
 
   return (
