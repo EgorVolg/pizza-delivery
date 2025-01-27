@@ -8,9 +8,10 @@ import { ErrorText } from "../form/error-text";
 
 type Props = {
   className?: string;
+  disabled?: boolean;
 };
 
-export const CheckoutAddressForm = ({ className }: Props) => {
+export const CheckoutAddressForm = ({ className, disabled }: Props) => {
   const { control } = useFormContext();
   return (
     <WhiteBlock className={className} title="3. Адрес доставки">

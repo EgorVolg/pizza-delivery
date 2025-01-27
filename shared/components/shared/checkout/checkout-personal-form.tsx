@@ -4,9 +4,13 @@ import { FormInput } from "../form/form-input";
 
 type Props = {
   className?: string;
+  disabled?: boolean;
 };
 
-export const CheckoutPersonalForm: React.FC<Props> = ({ className }) => {
+export const CheckoutPersonalForm: React.FC<Props> = ({
+  className,
+  disabled,
+}) => {
   return (
     <WhiteBlock className={className} title="2. Персональные данные">
       <div className="grid grid-cols-2 gap-5">

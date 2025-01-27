@@ -4,7 +4,7 @@ import React from "react";
 import { Title } from "./title";
 import { Input } from "../ui";
 import { RangeSlider } from "./range-slider";
-import { CheckboxFiltersGroup } from "./chekbox-filters-group";
+import { CheckboxFiltersGroup } from "./checkbox-filters-group";
 import { useIngredients } from "@/shared/hooks/useIngredients";
 import { useFilters } from "@/shared/hooks/useFilters";
 import { useQueryFilters } from "@/shared/hooks/useFiltersQuery";

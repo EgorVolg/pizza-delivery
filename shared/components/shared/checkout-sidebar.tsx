@@ -2,20 +2,21 @@
 import React, { useState } from "react";
 import { WhiteBlock } from "./white-block";
 import { ArrowRight, Package, Percent, Truck } from "lucide-react";
-import { Button } from "../ui";
+import { Button, Skeleton } from "../ui";
 import { cn } from "@/lib/utils";
 import { CheckoutsItemDetails } from "./checkouts-item-details";
 
 type Props = {
   className?: string;
+  loading?: boolean;
   totalAmount: number;
 };
 
 export const CheckoutSidebar: React.FC<Props> = ({
   className,
+  loading,
   totalAmount,
-}) => { 
-
+}) => {
   const VAT = 15;
   const DELIVERY_PRICE = 500;
   const vatPrice = (totalAmount * VAT) / 100;
@@ -25,7 +26,11 @@ export const CheckoutSidebar: React.FC<Props> = ({
     <WhiteBlock className={cn("p-6 sticky top-4", className)}>
       <div className="flex flex-col gap-1">
         <span className="text-xl">Итого:</span>
-        <span className="h-11 text-[34px] font-bold">{totalPrice} ₽</span>
+        {loading ? (
+          <Skeleton className="h-11 w-48" />
+        ) : (
+          <span className="h-11 text-[34px] font-bold">{totalPrice} ₽</span>
+        )}
       </div>
 
       <CheckoutsItemDetails
@@ -35,7 +40,7 @@ export const CheckoutSidebar: React.FC<Props> = ({
             Стоимость корзины
           </div>
         }
-        value={totalAmount}
+        value={loading ? <Skeleton className="h-6 w-16" /> : ` ${totalAmount} ₽`}
       />
       <CheckoutsItemDetails
         title={
@@ -44,7 +49,7 @@ export const CheckoutSidebar: React.FC<Props> = ({
             Налог
           </div>
         }
-        value={` ${vatPrice} ₽`}
+        value={loading ? <Skeleton className="h-6 w-16" /> : ` ${vatPrice} ₽`}
       />
       <CheckoutsItemDetails
         title={
@@ -53,10 +58,10 @@ export const CheckoutSidebar: React.FC<Props> = ({
             Доставка
           </div>
         }
-        value={` ${DELIVERY_PRICE} ₽`}
+        value={loading ? <Skeleton className="h-6 w-16" /> : ` ${DELIVERY_PRICE} ₽`}
       />
       <Button
-        type="submit" 
+        type="submit"
         className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
       >
         Оплатить

@@ -10,10 +10,14 @@ import { FormProvider, useForm } from "react-hook-form";
 import { CheckoutCart } from "@/shared/components/shared/checkout/checkout-cart";
 import { CheckoutPersonalForm } from "@/shared/components/shared/checkout/checkout-personal-form";
 import { CheckoutAddressForm } from "@/shared/components/shared/checkout/checkout-address-form";
-import { checkoutFormSchema, CheckoutFormValues } from "@/app/constans/checkout-form-schema";
+import {
+  checkoutFormSchema,
+  CheckoutFormValues,
+} from "@/app/constans/checkout-form-schema";
 
 export default function Chekout() {
-  const { totalAmount, items, fetchCartItems, removeCartItem } = useCart();
+  const { totalAmount, items, fetchCartItems, removeCartItem, loading } =
+    useCart();
 
   const onClickCountButton = (
     type: "plus" | "minus",
@@ -21,8 +25,8 @@ export default function Chekout() {
     quantity: number
   ) => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
-    fetchCartItems();
     updateItemQuantity(id, newQuantity);
+    fetchCartItems();
   };
 
   const form = useForm({
@@ -54,13 +58,18 @@ export default function Chekout() {
                 items={items}
                 onClickCountButton={onClickCountButton}
                 onClickRemoveItem={removeCartItem}
+                loading={loading}
               />
-                <CheckoutPersonalForm />
-              <CheckoutAddressForm />
+              <CheckoutPersonalForm
+                className={loading ? "opacity-50 pointer-events-none" : ""}
+              />
+              <CheckoutAddressForm
+                className={loading ? "opacity-50 pointer-events-none" : ""}
+              />
             </div>
 
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} />
+              <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
             </div>
           </div>
         </form>
