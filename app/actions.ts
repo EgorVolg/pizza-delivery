@@ -4,6 +4,10 @@ import { prisma } from "@/prisma/prisma-client";
 import { CheckoutFormValues } from "./constans/checkout-form-schema";
 import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
+import { sendEmail } from "@/shared/my-lib";
+import { PayOrderTemplate } from "@/shared/components/shared/email-templates/pay-order";
+import { createPayment } from "@/shared/my-lib/create-payment";
+import { error } from "console";
 
 export async function createOrder(data: CheckoutFormValues) {
   try {
@@ -67,10 +71,33 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-  } catch (error) {
-    console.log(error);
-  }
+    const paymentData = await createPayment({
+      description: "Next Pizza / Оплатите заказ #" + order.id,
+      orderId: order.id,
+      amount: order.totalAmount,
+    });
 
-  return "http://localhost:3000/";
-//   re_ZKAt44TF_FFtfvruwgM7MSs5eMKSsRHrR
+    if (!paymentData) throw new Error("Payment failed");
+
+    await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: paymentData.id,
+      },
+    });
+
+    await sendEmail(
+      data.email,
+      "Next Pizza / Оплатите заказ #" + order.id,
+      PayOrderTemplate({
+        orderId: order.id,
+        totalAmount: order.totalAmount,
+        paymentUrl: paymentData.confirmation.confirmation_url,
+      })
+    );
+  } catch (error) {
+    console.log("[createOrder] error", error);
+  }
 }
