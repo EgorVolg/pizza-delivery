@@ -1,12 +1,16 @@
-import React from "react";
+import * as React from "react";
 
-export const PayOrderTemplate = ({ orderId, totalAmount, paymentUrl }: any) => (
+interface PayOrderTemplate {
+  orderId: number;
+  totalAmount: number;
+  paymentUrl: string;
+}
+
+export const PayOrderTemplate = (params: PayOrderTemplate) => (
   <div>
-    <h1>Заказ #{orderId}</h1>
-
-    <p>
-      Оплатите заказ на сумму <b>{totalAmount} ₽</b>. Перейдите{" "}
-      <a href={paymentUrl}>по этой ссылке</a> для оплаты заказа.
-    </p>
+    <h1>
+      Заказ №{params.orderId} на сумму {params.totalAmount} готов к оплате!
+    </h1> 
+    <a href={params.paymentUrl}>Оплатить</a>
   </div>
 );

@@ -5,5 +5,4 @@ export { updateCartTotalAmount } from "./update-cart-total-amount";
 export { findOrCreateCart } from "./find-or-create-cart";
 export { priceCounter } from "./price-counter";
 export { getAvaiblePizzaSizes } from "./get-avaible-pizza-sizes";
-export { getPizzaDetails } from "./get-pizza-details";
-export { sendEmail } from "./send-email";
+export { getPizzaDetails } from "./get-pizza-details"; 

@@ -3,6 +3,7 @@ import React from "react";
 
 type Props = {
   className?: string;
+  children?: React.ReactNode;
 };
 
 export const Container: React.FC<React.PropsWithChildren<Props>> = ({
