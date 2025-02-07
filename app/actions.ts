@@ -3,8 +3,9 @@
 import { prisma } from "@/prisma/prisma-client";
 import { CheckoutFormValues } from "./constans/checkout-form-schema";
 import { OrderStatus } from "@prisma/client";
-import { cookies } from "next/headers"; 
-import { sendEmail, SendEmail } from "@/shared/my-lib/send-email";
+import { cookies } from "next/headers";
+import { sendEmail } from "@/shared/my-lib/send-email";
+import { PayOrderTemplate } from "@/shared/components/shared/email-templates/pay-order";
 
 export async function createOrder(data: CheckoutFormValues) {
   try {
@@ -67,9 +68,16 @@ export async function createOrder(data: CheckoutFormValues) {
         cartId: userCart.id,
       },
     });
-    
-    sendEmail(data.email, 'Next Pizza | Оплатите заказ' + order.id)
 
+    await sendEmail(
+      data.email,
+      "Next Pizza | Оплатите заказ " + order.id,
+      PayOrderTemplate({
+        orderId: order.id,
+        totalAmount: order.totalAmount,
+        paymentUrl: "localhost:3000",
+      })
+    );
   } catch (error) {
     console.log("[createOrder] error", error);
   }

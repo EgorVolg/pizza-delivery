@@ -13,8 +13,7 @@ import {
   CheckoutFormValues,
 } from "@/app/constans/checkout-form-schema";
 import { createOrder } from "@/app/actions";
-import toast from "react-hot-toast";
-import { prisma } from "@/prisma/prisma-client";
+import toast from "react-hot-toast"; 
 import { useState } from "react";
 
 export default function Chekout() {
@@ -44,26 +43,28 @@ export default function Chekout() {
     },
   });
 
-  const onSubmit = async (data: CheckoutFormValues) => {
-    const url = await createOrder(data);
-
-    try {
-      setSubmitting(true);
-      toast.error("Заказ успешно оформлен! 📝 Переход на оплату... ", {
-        icon: "✅",
-      });
-
-      if (url) {
-        location.href = url;
+    const onSubmit = async (data: CheckoutFormValues) => {
+      try {
+        setSubmitting(true);
+  
+        const url = await createOrder(data);
+  
+        toast.error('Заказ успешно оформлен! 📝 Переход на оплату... ', {
+          icon: '✅',
+        });
+  
+        if (url) {
+          location.href = url;
+        }
+      } catch (err) {
+        console.log(err);
+        setSubmitting(false);
+        toast.error('Не удалось создать заказ', {
+          icon: '❌',
+        });
       }
-    } catch (err) {
-      console.log(err);
-      setSubmitting(false);
-      toast.error("Не удалось создать заказ", {
-        icon: "❌",
-      });
-    }
-  };
+    };
+  
 
   return (
     <Container className="mt-10">
