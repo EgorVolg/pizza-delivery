@@ -6,6 +6,7 @@ import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
 import { sendEmail } from "@/shared/my-lib/send-email";
 import { PayOrderTemplate } from "@/shared/components/shared/email-templates/pay-order";
+import { createPayment } from "@/shared/my-lib/create-payment";
 
 export async function createOrder(data: CheckoutFormValues) {
   try {
@@ -69,7 +70,25 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    const paymentUrl = "http://localhost:3000";
+    
+    const paymentData = await createPayment({
+      orderId: order.id,
+      amount: order.totalAmount,
+      description: "Оплата заказа #" + order.id,
+    });
+    
+    if (!paymentData) throw new Error("Payment failed");
+    
+    const paymentUrl = paymentData.confirmation.confirmation_url;
+    
+    await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: paymentData.id,
+      },
+    });
 
     await sendEmail(
       data.email,
