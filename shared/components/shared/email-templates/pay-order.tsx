@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from 'react';
 
 interface Props {
   orderId: number;
@@ -6,15 +6,13 @@ interface Props {
   paymentUrl: string;
 }
 
-export const PayOrderTemplate = ({
-  orderId,
-  totalAmount,
-  paymentUrl,
-}: Props) => (
+export const PayOrderTemplate: React.FC<Props> = ({ orderId, totalAmount, paymentUrl }) => (
   <div>
-    <h1>
-      Заказ №{orderId} на сумму {totalAmount} готов к оплате!
-    </h1>
-    <a href={paymentUrl}>Оплатить</a>
+    <h1>Заказ #{orderId}</h1>
+
+    <p>
+      Оплатите заказ на сумму <b>{totalAmount} ₽</b>. Перейдите
+      <a href={paymentUrl}> по этой ссылке</a> для оплаты заказа.
+    </p>
   </div>
 );

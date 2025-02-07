@@ -69,13 +69,15 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
+    const paymentUrl = "http://localhost:3000";
+
     await sendEmail(
       data.email,
-      "Next Pizza | Оплатите заказ " + order.id,
+      "Next Pizza / Оплатите заказ #" + order.id,
       PayOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
-        paymentUrl: "localhost:3000",
+        paymentUrl,
       })
     );
   } catch (error) {
