@@ -1,14 +1,15 @@
-import { PaymentCallbackData } from "@/@types/yookassa";
-import { prisma } from "@/prisma/prisma-client";
-import { CartItemDTO } from "@/servises/dto/cart.dto";
-import { OrderSuccessTemplate } from "@/shared/components/shared/email-templates/email-succeeded";
-import { sendEmail } from "@/shared/my-lib/send-email";
-import { OrderStatus } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { PaymentCallbackData } from '@/@types/yookassa';
+import { prisma } from '@/prisma/prisma-client'; 
+import { CartItemDTO } from '@/servises/dto/cart.dto';
+import { OrderSuccessTemplate } from '@/shared/components/shared/email-templates/email-succeeded';
+import { sendEmail } from '@/shared/my-lib/send-email';
+import { OrderStatus } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as PaymentCallbackData;
+
     const order = await prisma.order.findFirst({
       where: {
         id: Number(body.object.metadata.order_id),
@@ -16,35 +17,33 @@ export async function POST(req: NextRequest) {
     });
 
     if (!order) {
-      return NextResponse.json("Order not found", { status: 404 });
+      return NextResponse.json({ error: 'Order not found' });
     }
 
-    const isSuccess = body.object.status === "succeeded";
+    const isSucceeded = body.object.status === 'succeeded';
+
     await prisma.order.update({
       where: {
         id: order.id,
       },
       data: {
-        status: isSuccess ? OrderStatus.SUCCEEDED : OrderStatus.CANCELLED,
+        status: isSucceeded ? OrderStatus.SUCCEEDED : OrderStatus.CANCELLED,
       },
     });
 
     const items = JSON.parse(order?.items as string) as CartItemDTO[];
-    if (isSuccess) {
+
+    if (isSucceeded) {
       await sendEmail(
         order.email,
-        "Next Pizza / Ваш заказ успешно оформлен 🎉",
-        OrderSuccessTemplate({ orderId: order.id, items })
+        'Next Pizza / Ваш заказ успешно оформлен 🎉',
+        OrderSuccessTemplate({ orderId: order.id, items }),
       );
     } else {
-      await sendEmail(
-        order.email,
-        "Next Pizza / Ваш заказ не был оплачен",
-        OrderSuccessTemplate({ orderId: order.id, items })
-      );
+      // Письмо о неуспешной оплате
     }
   } catch (error) {
-    console.log("[CHECKOUT CALLBACK] ERROR: ", error);
-    return NextResponse.json("Error", { status: 500 });
+    console.log('[Checkout Callback] Error:', error);
+    return NextResponse.json({ error: 'Server error' });
   }
 }

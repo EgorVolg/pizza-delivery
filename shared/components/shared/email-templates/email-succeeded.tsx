@@ -6,7 +6,7 @@ interface Props {
   items: CartItemDTO[];
 }
 
-export const OrderSuccessTemplate: React.FC<Props> = ({ orderId, items }) => (
+export const OrderSuccessTemplate = ({ orderId, items }: Props) => (
   <div>
     <h1>Спасибо за покупку! 🎉</h1>
 
@@ -17,7 +17,7 @@ export const OrderSuccessTemplate: React.FC<Props> = ({ orderId, items }) => (
     <ul>
       {items.map((item) => (
         <li key={item.id}>
-          {item.productItem.product.name} | {item.productItem.price} ₽ x{" "}
+          {item.productItem.product.name} | {item.productItem.price} ₽ x&nbsp;
           {item.quantity} шт. = {item.productItem.price * item.quantity} ₽
         </li>
       ))}

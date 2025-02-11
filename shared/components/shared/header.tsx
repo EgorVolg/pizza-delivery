@@ -1,4 +1,5 @@
 "use client";
+
 import { cn } from "@/lib/utils";
 import React, { useEffect } from "react";
 import { Container } from "./container";
@@ -7,10 +8,10 @@ import { User } from "lucide-react";
 import { Button } from "../ui";
 import Link from "next/link";
 import { SearchInput } from "./search-input";
-import { CartButton } from "./cart-button";
-import { search } from "@/servises/products";
+import { CartButton } from "./cart-button"; 
 import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 type Props = {
   className?: string;
@@ -24,12 +25,13 @@ export const Header: React.FC<Props> = ({
   hasCart = true,
 }) => {
   const searchParams = useSearchParams();
+  const { session } = useSession();
 
   useEffect(() => {
-    let toastMessage = "";
-
     if (searchParams.has("paid")) {
-      toastMessage = "Заказ успешно оплачен! Информация отправлена на почту.";
+      setTimeout(() => {
+        toast.success("Заказ успешно оплачен! Информация отправлена на почту.");
+      }, 5000);
     }
   }, []);
 
